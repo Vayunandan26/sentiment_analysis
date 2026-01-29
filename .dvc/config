@@ -1,0 +1,4 @@
+[core]
+    remote = cos
+['remote "cos"']
+    url = s3://mlflow-vayu-26

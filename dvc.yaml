@@ -1,0 +1,26 @@
+stages:
+  data_clean : 
+    cmd : python src/data_clean.py
+    deps:
+      - "data/data.csv"
+      - src/data_clean.py
+    params:
+      - data.input
+      - data.split
+      - cleaning.sentiment_mapping
+      - mlflow.uri
+    outs:
+      - "data/split/test.csv"
+      - "data/split/val.csv"
+    
+  data_augmentation :
+    cmd : python src/neutral_aug.py
+    deps :
+      - "data/split/train.csv"
+      - src/neutral_aug.py
+    params :
+      - data.split
+      - mlflow.uri
+      - augmentation.target_langs
+    outs :
+      - "split/train_augmented.csv"
