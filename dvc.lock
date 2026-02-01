@@ -1,0 +1,38 @@
+schema: '2.0'
+stages:
+  data_cleaning:
+    cmd: python src/data_clean.py
+    deps:
+    - path: data/data.csv
+      hash: md5
+      md5: f1b710c2e331b8ccb8823acaf017fd06
+      size: 724995
+    - path: src/data_clean.py
+      hash: md5
+      md5: 6a3ada84288bb885f515342794188a61
+      size: 3144
+    params:
+      params.yaml:
+        cleaning.sentiment_mapping:
+          5 stars: 2
+          4 stars: 2
+          3 stars: 1
+          2 stars: 0
+          1 star: 0
+        data.input: data/data.csv
+        data.split: data/split
+        mlflow.uri: 
+          http://ec2-13-232-208-235.ap-south-1.compute.amazonaws.com:5000/
+    outs:
+    - path: data/split/test.csv
+      hash: md5
+      md5: f4847fbc022be35358d5dae92b844714
+      size: 68732
+    - path: data/split/train.csv
+      hash: md5
+      md5: fc0b1e40062947d3f30578ca82d01150
+      size: 559209
+    - path: data/split/val.csv
+      hash: md5
+      md5: 633b6c6ff0b7cd1b99a3ca1e5000bc36
+      size: 69054

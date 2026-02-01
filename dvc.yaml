@@ -1,0 +1,15 @@
+stages :
+  data_cleaning :
+    cmd : python src/data_clean.py
+    deps :
+    - src/data_clean.py
+    - data/data.csv
+    params :
+    - data.input
+    - data.split
+    - mlflow.uri
+    - cleaning.sentiment_mapping
+    outs :
+    - data/split/train.csv
+    - data/split/test.csv
+    - data/split/val.csv
