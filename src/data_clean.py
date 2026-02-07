@@ -60,7 +60,7 @@ def main():
     
         train_df, temp_df = train_test_split(
             cleaned_df,
-            test_size=0.2,
+            test_size=0.3,
             stratify=cleaned_df[['labels', 'language']],
             random_state=42
         )
@@ -89,8 +89,8 @@ def main():
             
         mlflow.log_metrics(metric_to_log)
         
-        mlflow.log_param("test_size", '0.2')
-        mlflow.log_param("val_size", '0.1')
+        mlflow.log_param("test_size", '0.3')
+        mlflow.log_param("val_size", '0.15')
         mlflow.log_dict(params['cleaning']['sentiment_mapping'], "mapping.json")
         
         
