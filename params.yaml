@@ -1,0 +1,36 @@
+data:
+  input: "data/data.csv"
+  split: "data/split"
+mlflow:
+  uri : http://ec2-13-200-143-180.ap-south-1.compute.amazonaws.com:5000/
+cleaning:
+  sentiment_mapping:
+    "5 stars": 2
+    "4 stars": 2
+    "3 stars": 1
+    "2 stars": 0
+    "1 star": 0
+model:
+  name: "xlm-roberta-base"
+  num_labels: 3
+  max_length: 64
+training:
+  epochs: 3
+  batch_size: 16
+  lr: 1e-5
+  weight_decay: 0.01
+augmentation:
+  target_langs: ['en', 'fr', 'es', 'de', 'it']
+train:
+  train_path: "data/split/train_augmented.csv"
+  val_path: "data/split/val.csv"
+  epochs: 3
+  batch_size: 16
+  learning_rate: 1e-5
+  weight_decay: 0.01
+  warmup_steps: 100
+  output_dir: "./models/bert_checkpoints"
+  model_save_path: "models/sentiment_model"
+mlflow_config:
+  experiment_name: "Sentiment_Analysis_BERT"
+  run_name: "Augmented_Data_Run"
