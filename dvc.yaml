@@ -13,3 +13,14 @@ stages:
       - data/split/train.csv
       - data/split/test.csv
       - data/split/val.csv
+  data_augmentation:
+    cmd: python src/neutral_aug.py
+    deps:
+    - src/neutral_aug.py
+    - data/split/train.csv
+    - params.yaml
+    params:
+    - data
+    - mlflow.uri
+    outs:
+    - data/split/train_augmented.csv
