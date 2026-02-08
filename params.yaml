@@ -29,6 +29,4 @@ train:
   warmup_steps: 100
   output_dir: "./models/bert_checkpoints"
   model_save_path: "models/sentiment_model"
-mlflow_config:
-  experiment_name: "Sentiment_Analysis_BERT"
-  run_name: "Augmented_Data_Run"
+  tokenizer_path: "models/tokenizer"

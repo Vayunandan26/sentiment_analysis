@@ -24,3 +24,16 @@ stages:
     - mlflow.uri
     outs:
     - data/split/train_augmented.csv
+  training:
+    cmd: python src/train.py
+    deps:
+    - src/train.py
+    - data/split/train_augmented.csv
+    - data/split/val.csv
+    params:
+    - train
+    - model
+    - training 
+    outs:
+    - models/sentiment_model
+    - models/tokenizer

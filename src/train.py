@@ -132,7 +132,10 @@ def main():
         mlflow.pytorch.log_model(model, "model")
         
         trainer.save_model(params['train']['model_save_path'])
+        tokenizer.save_pretrained(params['train']['tokenizer_path'])
+        
         logger.info(f"Model saved to {params['train']['model_save_path']}")
+        logger.info(f"Tokenizer saved to {params['train']['tokenizer_path']}")
 
 if __name__ == "__main__":
     main()
