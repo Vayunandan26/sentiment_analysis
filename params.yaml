@@ -19,8 +19,6 @@ training:
   batch_size: 16
   lr: 1e-5
   weight_decay: 0.01
-augmentation:
-  target_langs: ['en', 'fr', 'es', 'de', 'it']
 train:
   train_path: "data/split/train_augmented.csv"
   val_path: "data/split/val.csv"

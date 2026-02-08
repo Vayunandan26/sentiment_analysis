@@ -1,0 +1,13 @@
+optimum[onnxruntime]
+transformers
+pandas
+scikit-learn
+matplotlib
+seaborn
+torch
+deep-translator
+dvc
+pyyaml
+mlflow
+boto3
+awscli 
