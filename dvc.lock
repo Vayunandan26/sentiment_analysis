@@ -9,8 +9,8 @@ stages:
       size: 724995
     - path: params.yaml
       hash: md5
-      md5: fb5190c6beb07ef1ba4f7306aa74993f
-      size: 744
+      md5: a9008a485ad6dbb4fc7fad13cc4d8220
+      size: 687
     - path: src/data_clean.py
       hash: md5
       md5: f7da59e4c5001f7fafb0432728315ef6
@@ -51,8 +51,8 @@ stages:
       size: 489038
     - path: params.yaml
       hash: md5
-      md5: fb5190c6beb07ef1ba4f7306aa74993f
-      size: 744
+      md5: a9008a485ad6dbb4fc7fad13cc4d8220
+      size: 687
     - path: src/neutral_aug.py
       hash: md5
       md5: b297523cf4879215c9f2e10eefd52e4b
@@ -69,3 +69,51 @@ stages:
       hash: md5
       md5: c7ffc857788df550e08b089ea2982a8d
       size: 2040159
+  training:
+    cmd: python src/train.py
+    deps:
+    - path: data/split/train_augmented.csv
+      hash: md5
+      md5: c7ffc857788df550e08b089ea2982a8d
+      size: 2040159
+    - path: data/split/val.csv
+      hash: md5
+      md5: 5cd988d00bbf95d7ffd64e2abd413eec
+      size: 104592
+    - path: src/train.py
+      hash: md5
+      md5: 00ba8b1ec238a33e63668fd7654e8c21
+      size: 4980
+    params:
+      params.yaml:
+        model:
+          name: xlm-roberta-base
+          num_labels: 3
+          max_length: 64
+        train:
+          train_path: data/split/train_augmented.csv
+          val_path: data/split/val.csv
+          epochs: 3
+          batch_size: 3
+          learning_rate: 1e-05
+          weight_decay: 0.01
+          warmup_steps: 100
+          output_dir: ./models/bert_checkpoints
+          model_save_path: models/sentiment_model
+          tokenizer_path: models/tokenizer
+        training:
+          epochs: 3
+          batch_size: 16
+          lr: 1e-05
+          weight_decay: 0.01
+    outs:
+    - path: models/sentiment_model
+      hash: md5
+      md5: 93645b417429f6f1b4f7b8ca884eca92.dir
+      size: 1128996384
+      nfiles: 5
+    - path: models/tokenizer
+      hash: md5
+      md5: 97c19e515a1e15b1eb58eabdaf09c87a.dir
+      size: 16782063
+      nfiles: 2

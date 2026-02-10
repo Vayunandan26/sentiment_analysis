@@ -23,7 +23,7 @@ train:
   train_path: "data/split/train_augmented.csv"
   val_path: "data/split/val.csv"
   epochs: 3
-  batch_size: 16
+  batch_size: 3
   learning_rate: 1e-5
   weight_decay: 0.01
   warmup_steps: 100
