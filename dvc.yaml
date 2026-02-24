@@ -37,3 +37,13 @@ stages:
     outs:
     - models/sentiment_model
     - models/tokenizer
+  quantization:
+    cmd: python src/quant.py
+    deps:
+    - src/quant.py
+    - models/sentiment_model
+    params:
+    - train
+    - model
+    outs:
+    - models/quantized_model
