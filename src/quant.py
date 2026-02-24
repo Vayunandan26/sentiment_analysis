@@ -70,7 +70,6 @@ def apply_quantization(onnx_model_dir, quantized_output_dir):
         raise
 
 def get_dir_size_mb(path):
-    """Calculates the size of a directory or file in MB."""
     path = Path(path)
     if path.is_file():
         return path.stat().st_size / (1024 * 1024)
