@@ -112,8 +112,9 @@ def main():
         report_to="mlflow",
         logging_steps=10
     )
-    with mlflow.start_run(run_name = "BERT fine tuning"):
-        trainer = WeightedTrainer(
+
+    with mlflow.start_run("BERT fine tuning"):
+        trainer = Trainer(
             model = model,
             args = training_args,
             train_dataset = train_ds,
