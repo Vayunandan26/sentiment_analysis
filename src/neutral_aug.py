@@ -1,5 +1,4 @@
 from deep_translator import GoogleTranslator
-from tqdm import tqdm
 import pandas as pd
 import random
 import logging 
@@ -46,15 +45,12 @@ def translate_row(row, lang):
         return None
 
 def augment_data(df, batch_size = 20, checkpoint_path = 'temp_checkpoint.csv'):
-    start_row_index = 0
 
-    # --- RESUME LOGIC ---
     if os.path.exists(checkpoint_path):
         try:
             existing_data = pd.read_csv(checkpoint_path)
             if not existing_data.empty:
                 augmented_rows = existing_data.to_dict('records')
-                last_processed_idx = len(existing_data) // 3 
                 logger.info(f"Checkpoint found. Loaded {len(existing_data)} rows.")
         except Exception as e:
             logger.warning(f"Could not parse checkpoint, starting fresh: {e}")
@@ -68,7 +64,6 @@ def augment_data(df, batch_size = 20, checkpoint_path = 'temp_checkpoint.csv'):
     augmented_rows = []
 
     try:
-        # Loop through the dataframe in small chunks (Batching)
         for i in range(0, total_rows, batch_size):
             batch = df.iloc[i : i + batch_size]
             futures = []
@@ -76,16 +71,14 @@ def augment_data(df, batch_size = 20, checkpoint_path = 'temp_checkpoint.csv'):
             # Using 5 workers: fast enough but safer for free APIs
             with ThreadPoolExecutor(max_workers=7) as executor:
                 for _, row in batch.iterrows():
-                    num_translations = 4 if row['labels'] == 1 else 2
+                    num_translations = 5 if row['labels'] == 1 else 2
                     selected_langs = random.sample(target_langs, k=num_translations)
                     
                     for lang in selected_langs:
                         if row.get('language') != lang:
                             futures.append(executor.submit(translate_row, row, lang))
                             
-                pbar = tqdm(as_completed(futures), total=len(futures), desc="Augmenting")
 
-                # Wait for the current batch to finish
                 for future in as_completed(futures):
                     try:
                         result = future.result(timeout=15)
@@ -93,19 +86,15 @@ def augment_data(df, batch_size = 20, checkpoint_path = 'temp_checkpoint.csv'):
                             augmented_rows.append(result)
                     except Exception:
                         pass 
-                    finally:
-                        pbar.update(1)
             time.sleep(1.5)
 
             if (i // batch_size) % 5 == 0:
                 pd.DataFrame(augmented_rows).to_csv("temp_checkpoint.csv", index=False)
 
-        pbar.close()
         return pd.DataFrame(augmented_rows)
 
     except Exception as e:
         logger.error(f"Batch processing error: {e}")
-        pbar.close()
         return pd.DataFrame(augmented_rows)
 
 def main():  
@@ -120,7 +109,9 @@ def main():
     
     with mlflow.start_run(run_name="Neutral_Augmentation"):
         df = load_data(train_path)
+        logger.info(f"Original training data : {len(df)} rows.")
         aug_df = augment_data(df, batch_size=20, checkpoint_path = checkpoint_file) 
+        logger.info(f"Data augmentation completed. Generated {len(aug_df)} augmented rows.")
         
         combined_df = pd.concat([df, aug_df], ignore_index=True)
         initial_count = len(combined_df)
