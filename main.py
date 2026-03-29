@@ -12,8 +12,8 @@ from googleapiclient.discovery import build
 
 app = FastAPI(title="YouTube Sentiment Analyzer", lifespan=lifespan)
 
-S3_BUCKET = os.getenv("S3_BUCKET_NAME", "your-s3-bucket-name")
-S3_PREFIX = os.getenv("S3_MODEL_PREFIX", "models/quantized_model/")
+S3_BUCKET = os.getenv("S3_BUCKET_NAME")
+S3_PREFIX = os.getenv("S3_MODEL_PREFIX")
 LOCAL_MODEL_DIR = "./local_quantized_model"
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 
