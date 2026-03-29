@@ -125,7 +125,7 @@ def main():
         
         combined_df = pd.concat([df, aug_df], ignore_index=True)
         initial_count = len(combined_df)
-        combined_df = combined_df.drop_duplicates(subset=['tweet'])x
+        combined_df = combined_df.drop_duplicates(subset=['tweet'])
         final_count = len(combined_df)
         if initial_count > final_count:
             logger.info(f"Removed {initial_count - final_count} duplicate tweets.")

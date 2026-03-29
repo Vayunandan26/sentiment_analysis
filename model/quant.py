@@ -54,7 +54,7 @@ def apply_quantization(onnx_model_dir, quantized_output_dir):
     try:
         logger.info("Starting Dynamic INT8 Quantization...")
         quantizer = ORTQuantizer.from_pretrained(onnx_model_dir)
-        dqconfig = AutoQuantizationConfig.default(
+        dqconfig = AutoQuantizationConfig.arm64(
             is_static=False, 
             per_channel=True  
         )

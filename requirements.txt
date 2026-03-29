@@ -11,3 +11,7 @@ pyyaml
 mlflow
 boto3
 awscli 
+bitsandbytes
+evaluate
+streamlit
+plotly 

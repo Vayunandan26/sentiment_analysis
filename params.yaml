@@ -2,7 +2,7 @@ data:
   input: "data/data.csv"
   split: "data/split"
 mlflow:
-  uri : "https://ec2-65-1-127-73.ap-south-1.compute.amazonaws.com:5000"
+  uri : "http://ec2-15-206-213-168.ap-south-1.compute.amazonaws.com:5000"
 cleaning:
   sentiment_mapping:
     "5 stars": 2
